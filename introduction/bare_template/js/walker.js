@@ -13,11 +13,16 @@ Walker.prototype.display = function(){
   context.fillRect(this.x+xOff, yOff-this.y, 1, 1)
 }
 
+Walker.prototype.step = function(){
+  var choice = parseInt(Math.random()*4)
+  this.x += (1-choice)%2
+  this.y += (2-choice)%2
+}
+
 var testRun = function(){
-  var bleh = new Walker({canvas: $('canvas').first()})
-  for(var i=0; i<100; i++){
-    console.log(i)
-    bleh.x = i
+  var bleh = new Walker()
+  for(var i=0; i<10000; i++){
+    bleh.step()
     bleh.display()
   }
 }
