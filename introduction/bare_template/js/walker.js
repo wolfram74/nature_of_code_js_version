@@ -19,10 +19,16 @@ Walker.prototype.step = function(){
   this.y += (2-choice)%2
 }
 
+Walker.prototype.nineStep = function(){
+  this.x += parseInt(Math.random()*3)-1
+  this.y += parseInt(Math.random()*3)-1
+}
+
+
 var testRun = function(){
-  var bleh = new Walker()
+  var w = new Walker()
   for(var i=0; i<10000; i++){
-    bleh.step()
-    bleh.display()
+    w.nineStep()
+    w.display()
   }
 }
