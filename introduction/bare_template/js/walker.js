@@ -24,11 +24,21 @@ Walker.prototype.nineStep = function(){
   this.y += parseInt(Math.random()*3)-1
 }
 
+Walker.prototype.gaussianWalk = function(){
+  this.x += gaussianBoxMuller()
+  this.y += gaussianBoxMuller()
+  // alternative approach,
+  // uniform distribution for theta,
+  // gaussian radial,
+  // trig to cartesian
+}
 
-var testRun = function(){
+
+var walkerRun = function(){
   var w = new Walker()
   for(var i=0; i<10000; i++){
-    w.nineStep()
+    w.step()
+    // w.gaussianWalk()
     w.display()
   }
 }
