@@ -24,7 +24,7 @@ Walker.prototype.nineStep = function(){
   this.y += parseInt(Math.random()*3)-1
 }
 
-Walker.prototype.gaussianWalk = function(){
+Walker.prototype.gaussianStep = function(){
   this.x += gaussianBoxMuller()
   this.y += gaussianBoxMuller()
   // alternative approach,
@@ -38,7 +38,8 @@ var walkerRun = function(){
   var w = new Walker()
   for(var i=0; i<10000; i++){
     w.step()
-    // w.gaussianWalk()
+    // w.nineStep()
+    // w.gaussianStep()
     w.display()
   }
 }
