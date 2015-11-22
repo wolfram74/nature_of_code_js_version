@@ -39,7 +39,14 @@ var bucketRun = function(){
 
 var canv = function(){
   var cont = $('canvas')[0].getContext('2d')
-  cont.arc(100,100, 15, 0, 2* Math.PI)
-  cont.fillStyle= 'rgba(255,0,0,.1)'
+  cont.beginPath()
+  cont.arc(100,100, 20, 0, 2* Math.PI)
+  cont.fillStyle= 'rgba(255,0,0,.25)'
   cont.fill();
+  cont.closePath()
+  cont.beginPath()
+  cont.arc(120,100, 20, 0, 2* Math.PI)
+  cont.fillStyle= 'rgba(0,0,255,.25)'
+  cont.fill();
+  cont.closePath()
 }
