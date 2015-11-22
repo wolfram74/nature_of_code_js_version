@@ -7,3 +7,23 @@ function gaussianBoxMuller(mean, sigma){
   var normalDistribution = rad* Math.sin(thet)
   return mean + normalDistribution*sigma
 };
+
+var arbitraryDistro = function(weightFunction){
+  //weight function should be a function of 1 variable that takes a number between 0 and 1, and maps it to 0 and 1
+  // possible enhancement would be to enable caching of the previously used weight function.
+  weightFunction = weightFunction || function(i){return i}
+  while(true){
+    var output = Math.random();
+    var threshold = weightFunction(sample);
+    var sample = Math.random();
+    if(sample < threshold){ return output};
+  };
+};
+
+var quadCurve = function(i){
+  return i*i
+};
+
+var expoCurve= function(i){
+  return (Math.E**i-1)/(Math.E-1)
+}
