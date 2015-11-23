@@ -58,7 +58,14 @@ Vector.prototype.normalize = function(){
   return this.div(magnitude)
 }
 
+Vector.prototype.limit = function(scalar){
+  var magnitude = this.mag();
+  if(magnitude > scalar){ return this.setMag(scalar)};
+  return this
+};
+
 Vector.prototype.modulus = function(scalar){
+  // fackin' joova scripts
   for(var i=0; i<this.values.length; i++){
     this.values[i] = ((this.values[i] % scalar)+scalar)%scalar
   };

@@ -7,9 +7,11 @@ var Mover = function(args){
   this.velocity = args.velocity || new Vector(
     [Math.random()*4-2,Math.random()*4-2]
     )
+  this.acceleration = new Vector([-0.001,0.01])
 };
 
 Mover.prototype.update = function(){
+  this.velocity.add(this.acceleration)
   this.location.add(this.velocity)
 };
 
