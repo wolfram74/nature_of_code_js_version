@@ -57,3 +57,10 @@ Vector.prototype.normalize = function(){
   var magnitude = this.mag()
   return this.div(magnitude)
 }
+
+Vector.prototype.modulus = function(scalar){
+  for(var i=0; i<this.values.length; i++){
+    this.values[i] = ((this.values[i] % scalar)+scalar)%scalar
+  };
+  return this
+}

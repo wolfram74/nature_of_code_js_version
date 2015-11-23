@@ -21,7 +21,6 @@ Bucket.prototype.dribble = function(){
   context.beginPath()
   context.fillStyle = 'rgba('+r+','+g+','+b+','+'0.1)'
   context.arc(x, y, 10, 0, 2*Math.PI)
-  // context.arc(x, y, 10, 0, 6.2832)
   context.fill()
   context.closePath()
 };
