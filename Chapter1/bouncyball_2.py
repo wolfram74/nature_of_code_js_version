@@ -32,7 +32,7 @@ class Ball:
 
     self.location.add(self.velocity)
     self.find_borders()
-    main.after(1, self.draw)
+    main.after(50, self.draw)
 
   def find_borders(self):
     if self.location.x + self.width >= canvas_width or self.location.x <= 0:
@@ -47,5 +47,5 @@ b = Ball(50,50,1,3.3)
 main = Tk()
 canvas = Canvas(main, width=canvas_width, height = canvas_height, bg = "white")
 canvas.pack()
-main.after(1, b.draw)
+main.after(50, b.draw)
 mainloop()
