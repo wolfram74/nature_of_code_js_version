@@ -16,6 +16,7 @@ describe("Vector behavior", function() {
     vector1 = new Vector([1,2,3])
     vector2 = new Vector([4,5,0])
     vector2d = new Vector([1,2])
+    // a better approach would be to set up a few random vectors and use them as well.
   });
 
   it("should have a collection of values", function() {
@@ -40,6 +41,9 @@ describe("Vector behavior", function() {
   it("should be able to subtract together when of proper dimension", function() {
     vector1.sub(vector2)
     expect(vector1.values[1]).toEqual(-3);
+  });
+  it("should be able to dot product together when of proper dimension", function() {
+    expect(vector1.dot(vector2)).toEqual(14);
   });
 });
 

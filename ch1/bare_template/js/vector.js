@@ -20,10 +20,12 @@ Vector.prototype.mult= function(scalar){
 }
 
 Vector.prototype.sub= function(otherVec){
+  // untested
   return this.add( otherVec.mult(-1) )
 }
 
 Vector.prototype.div= function(scalar){
+  // untested
   this.mult(1/scalar)
   return this
 }
@@ -40,5 +42,18 @@ Vector.prototype.dot = function(otherVec){
 }
 
 Vector.prototype.mag = function(){
+  // untested
   return this.dot(this)
+}
+
+Vector.prototype.setMag = function(scalar){
+  // untested
+  var magnitude = this.mag()
+  return this.mult(scalar/magnitude)
+};
+
+Vector.prototype.normalize = function(){
+  // untested
+  var magnitude = this.mag()
+  return this.div(magnitude)
 }
