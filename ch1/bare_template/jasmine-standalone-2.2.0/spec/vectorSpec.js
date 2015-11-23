@@ -33,5 +33,13 @@ describe("Vector behavior", function() {
         new Error("Dimension mismatch on vector addition")
       );
   });
+  it("should be able to use scalar multiplication", function() {
+    vector1.mult(3)
+    expect(vector1.values[1]).toEqual(6);
+  });
+  it("should be able to subtract together when of proper dimension", function() {
+    vector1.sub(vector2)
+    expect(vector1.values[1]).toEqual(-3);
+  });
 });
 
