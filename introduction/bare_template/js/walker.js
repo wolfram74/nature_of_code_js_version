@@ -36,10 +36,27 @@ Walker.prototype.gaussianStep = function(){
 
 var walkerRun = function(){
   var w = new Walker()
-  for(var i=0; i<10000; i++){
+
+  iterator(10000, function(){
     w.step()
-    // w.nineStep()
-    // w.gaussianStep()
     w.display()
+  },1)
+  // for(var i=0; i<10000; i++){
+  //   w.step()
+  //   // w.nineStep()
+  //   // w.gaussianStep()
+  //   w.display()
+  // }
+}
+
+var iterator = function(cycles, callback, delay){
+  delay = delay || 0
+  if(cycles > 0){
+    setTimeout(
+      function(){
+        callback();
+        iterator(cycles-1, callback, delay)
+      },
+      delay)
   }
 }

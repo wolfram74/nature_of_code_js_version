@@ -25,5 +25,5 @@ var quadCurve = function(i){
 };
 
 var expoCurve= function(i){
-  return (Math.E**i-1)/(Math.E-1)
+  return Math.pow(Math.E,i-1)/(Math.E-1)
 }

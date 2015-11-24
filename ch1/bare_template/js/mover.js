@@ -52,3 +52,8 @@ var iterator = function(cycles, callback, delay){
       delay)
   }
 }
+
+/*
+possible eco system project
+predator and prey moving randomly, until close, then prey runs.
+*/
