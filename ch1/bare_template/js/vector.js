@@ -43,7 +43,7 @@ Vector.prototype.dot = function(otherVec){
 
 Vector.prototype.mag = function(){
   // untested
-  return this.dot(this)
+  return Math.pow(this.dot(this), 0.5)
 }
 
 Vector.prototype.setMag = function(scalar){
@@ -71,3 +71,27 @@ Vector.prototype.modulus = function(scalar){
   };
   return this
 }
+
+//class functions
+
+Vector.mult = function(initVector, scalar){
+  var values = []
+  for(var i=0; i<initVector.values.length; i++){
+    values.push(initVector.values[i] * scalar)
+  };
+  return new Vector(values)
+};
+Vector.add = function(vect1, vect2){
+  var values = []
+  for(var i=0; i<vect1.values.length; i++){
+    values.push(vect1.values[i] + vect2.values[i])
+  };
+  return new Vector(values)
+}
+
+Vector.div = function(initVector, scalar){
+  return this.mult(initVector, 1/scalar)
+};
+Vector.sub = function(vect1, vect2){
+  return this.add(vect1, this.mult(vect2, -1))
+};
