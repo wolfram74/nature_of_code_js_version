@@ -1,4 +1,8 @@
 from Tkinter import *
+import random
+
+def noise(x, y):
+  return PVector((random.randint(-x, x)) * .05, (random.randint(-y, y))*.05)
 
 class PVector:
   def __init__(self, x, y):
@@ -24,27 +28,28 @@ class Runner:
 
   def update(self):
     canvas.delete('all')
+    self.accelerate()
     self.velocity.add(self.acceleration)
-    if self.velocity.x < 0:
-      self.velocity.set_zero()
-    if self.velocity.y < 0:
-      self.velocity.set_zero()
     self.location.add(self.velocity)
     self.find_borders()
     canvas.create_oval(self.location.x, self.location.y, self.location.x + self.width, self.location.y+self.height)
     main.after(10, r.update)
 
   def accelerate(self):
-    self.acceleration.add(PVector(.01, 0))
+    self.velocity.add(noise(3,3))
 
   def brake(self):
-    self.acceleration.add(PVector(-.01, 0))
+    self.velocity.add(PVector(-.01, 0))
 
   def find_borders(self):
-    if self.location.x + self.width >= 800 or self.location.x < 0:
+    if self.location.x>= 800:
       self.location.x = 0
-    if self.location.y + self.width >= 200 or self.location.y < 0:
+    if self.location.x < 0:
+      self.location.x = 800
+    if self.location.y>= 200:
       self.location.y = 0
+    if self.location.y < 0:
+      self.location.y = 200
 
 
 main = Tk()
@@ -52,15 +57,7 @@ main = Tk()
 canvas = Canvas(main, width=800, height=200)
 r = Runner()
 
-def leftKey(event):
-  r.brake()
 
-def rightKey(event):
-  r.accelerate()
-
-main.bind('<Left>', leftKey)
-main.bind('<Right>', rightKey)
-canvas.focus_set()
 canvas.pack()
 main.after(10, r.update)
 mainloop()
