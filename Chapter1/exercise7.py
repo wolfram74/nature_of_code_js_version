@@ -11,22 +11,29 @@ class PVector:
   def add(self, vector):
     self.x += vector.x
     self.y += vector.y
+    return self
 
   def subt(self, vector):
     self.x -= vector.x
     self.y -= vector.y
+    return self
 
   def mult(self, num):
     self.x *= num
     self.y *= num
+    return self
 
-  def __multiply_new_vector(self, vector, factor):
-    PVector()
+  def new_mult(self, factor):
+    return PVector(self.x * factor, self.y * factor)
+
+
+  def new_subt(self, vector):
+    return PVector(self.x - vector.x, self.y - vector.y)
 
 v = PVector(1,5)
-u = v.mult(2)
-w = v.subt(v)
+u = v.new_mult(2)
+w = v.new_subt(u)
 
-print v
-print u
-print w
+print v.x
+print u.x
+print w.x
