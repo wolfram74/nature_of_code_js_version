@@ -10,8 +10,10 @@ var World = function(args){
 };
 
 World.prototype.checkEdges = function(){
-  for(var i=0; i<this.bodies.length; i++){
-    this.bodies[i].checkEdges()
+  if(!this.noEdge){
+    for(var i=0; i<this.bodies.length; i++){
+      this.bodies[i].checkEdges()
+    };
   };
 }
 
@@ -19,10 +21,8 @@ World.prototype.update = function(){
   for(var i=0; i<this.bodies.length; i++){
     this.rule(this.bodies[i])
   };
-  if(!this.noEdge){
-    for(var i=0; i<this.bodies.length; i++){
-      this.bodies[i].update()
-    };
+  for(var i=0; i<this.bodies.length; i++){
+    this.bodies[i].update()
   };
   this.time +=1
 };
@@ -136,6 +136,44 @@ var worldDampedHarmonic = function(){
   }, 1)
 };
 
+var worldDrivenDampedHarmonic = function(){
+  var worldView = canvasSetup('worldView')
+  $('.displays').append(worldView)
+  var bodies = []
+  var center = worldView.width()/2
+  for(var i = 0; i < 38; i++){
+    var bodyArgs = {
+      mass: 25,
+      location: new Vector([center,i*10+10]),
+      group: true,
+      canvas: worldView
+    };
+    bodies.push(new Mover(bodyArgs))
+  };
+  world = new World({
+    bodies: bodies,
+    canvas: worldView,
+    noEdge: true,
+    rule: function(body){
+      var xOff = body.maxX/2
+      var springForce = new Vector([
+        .01*(xOff-body.location.values[0]),
+        0])
+      var velocity = Vector.copy(body.velocity)
+      var dampingForce = velocity.mult(-0.025)
+      var drivingForce = new Vector([0.01, 0])
+      var sineValue = Math.sin((this.time/100)*(body.location.values[1]/80))
+      body.applyForce(springForce)
+      body.applyForce(dampingForce)
+      body.applyForce(drivingForce.mult(sineValue))
+    }
+  })
+  iterator(100000, function(){
+    world.checkEdges()
+    world.update()
+    world.display()
+  }, 1)
+};
 var worldRunInteractions = function(){
   var worldView = canvasSetup('worldView')
   $('.displays').append(worldView)
