@@ -81,6 +81,11 @@ Vector.mult = function(initVector, scalar){
   };
   return new Vector(values)
 };
+
+Vector.copy = function(initVector){
+  return this.mult(initVector, 1)
+}
+
 Vector.add = function(vect1, vect2){
   var values = []
   for(var i=0; i<vect1.values.length; i++){
@@ -92,6 +97,7 @@ Vector.add = function(vect1, vect2){
 Vector.div = function(initVector, scalar){
   return this.mult(initVector, 1/scalar)
 };
+
 Vector.sub = function(vect1, vect2){
   return this.add(vect1, this.mult(vect2, -1))
 };

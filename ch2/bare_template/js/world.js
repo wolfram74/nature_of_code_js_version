@@ -2,9 +2,11 @@ var World = function(args){
   args = args || {}
   this.bodies = args.bodies || []
   this.canvas = args.canvas || $('canvas').first()
+  this.noEdge = args.noEdge || false
   this.rule = args.rule || function(body){
     body.applyForce( new Vector([.5,.25]))
   };
+  this.time = 0
 };
 
 World.prototype.checkEdges = function(){
@@ -17,9 +19,12 @@ World.prototype.update = function(){
   for(var i=0; i<this.bodies.length; i++){
     this.rule(this.bodies[i])
   };
-  for(var i=0; i<this.bodies.length; i++){
-    this.bodies[i].update()
+  if(!this.noEdge){
+    for(var i=0; i<this.bodies.length; i++){
+      this.bodies[i].update()
+    };
   };
+  this.time +=1
 };
 
 World.prototype.applyRule = function(body){
@@ -88,6 +93,40 @@ var worldRunHarmonic = function(){
       body.applyForce(new Vector([
         .01*(xOff-body.location.values[0]),
         0]))
+    }
+  })
+  iterator(10000, function(){
+    world.checkEdges()
+    world.update()
+    world.display()
+  }, 1)
+};
+
+var worldDampedHarmonic = function(){
+  var worldView = canvasSetup('worldView')
+  $('.displays').append(worldView)
+  var bodies = []
+  for(var i = 0; i < 15; i++){
+    var bodyArgs = {
+      mass: i*i*3,
+      location: new Vector([50,i*20+20]),
+      group: true,
+      canvas: worldView
+    };
+    bodies.push(new Mover(bodyArgs))
+  };
+  world = new World({
+    bodies: bodies,
+    canvas: worldView,
+    rule: function(body){
+      var xOff = body.maxX/2
+      var springForce = new Vector([
+        .01*(xOff-body.location.values[0]),
+        0])
+      var velocity = Vector.copy(body.velocity)
+      var dampingForce = velocity.mult(-0.005)
+      body.applyForce(springForce)
+      body.applyForce(dampingForce)
     }
   })
   iterator(10000, function(){
