@@ -1,5 +1,6 @@
 var Mover = function(args){
   args = args || {}
+  this.group = args.group || false
   this.canvas = args.canvas || $('canvas').first()
   this.maxY = this.canvas.height()
   this.maxX = this.canvas.width()
@@ -14,6 +15,7 @@ var Mover = function(args){
 Mover.prototype.update = function(){
   this.velocity.add(this.acceleration)
   this.location.add(this.velocity)
+  this.acceleration = new Vector([0,0])
 };
 
 Mover.prototype.applyForce = function(vectorForce){
@@ -23,7 +25,7 @@ Mover.prototype.applyForce = function(vectorForce){
 Mover.prototype.checkEdges=function(){
   //works if square canvas, so what if it's brittle, look at that iterator function!
   // this.location.modulus(this.canvas.height())
-  console.log(this.y, this.maxY)
+  // console.log(this.location.values[1], this.maxY)
   if(this.location.values[0] > this.maxX || this.location.values[0] < 0){
     this.velocity.values[0] *= -1
   };
@@ -37,8 +39,11 @@ Mover.prototype.display = function(){
   var x = this.location.values[0]
   var y = this.location.values[1]
   radius = Math.pow(this.mass, .5)
+  if(!this.group){
+    console.log('clearing')
+    context.clearRect(0, 0, this.canvas.width(), this.canvas.height());
+  };
   context.beginPath()
-  context.clearRect(0, 0, this.canvas.width(), this.canvas.height());
   context.fillStyle = "rgba(0,0,0,1)"
   context.arc(x, this.canvas.height()-y, radius, 0, 2*Math.PI)
   context.fill()
@@ -48,11 +53,13 @@ Mover.prototype.display = function(){
 var moverRun = function(){
   var moveView = canvasSetup('moverView')
   $('.displays').append(moveView)
-  var mov = new Mover({canvas: moveView, acceleration: new Vector([0.01,0.02])})
+  var acc = new Vector([0.01,0.02])
+  var mov = new Mover({canvas: moveView, mass:100,acceleration: acc })
   // debugger
   iterator(10000, function(){
     mov.checkEdges()
     mov.update()
+    mov.acceleration = acc
     mov.display()
   }, 1)
 }
