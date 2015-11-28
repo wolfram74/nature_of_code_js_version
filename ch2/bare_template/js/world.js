@@ -160,7 +160,7 @@ var worldDrivenDampedHarmonic = function(){
         .01*(xOff-body.location.values[0]),
         0])
       var velocity = Vector.copy(body.velocity)
-      var dampingForce = velocity.mult(-0.025)
+      var dampingForce = velocity.mult(-0.0025)
       var drivingForce = new Vector([0.01, 0])
       var sineValue = Math.sin((this.time/100)*(body.location.values[1]/80))
       body.applyForce(springForce)

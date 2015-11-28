@@ -5,3 +5,7 @@ $(document).ready(function(){
     window[name]()
   })
 });
+
+var clear = function(){
+  $('.displays').empty()
+}
