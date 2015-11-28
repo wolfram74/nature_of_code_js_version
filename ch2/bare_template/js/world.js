@@ -15,7 +15,7 @@ World.prototype.checkEdges = function(){
 
 World.prototype.update = function(){
   for(var i=0; i<this.bodies.length; i++){
-    this.applyRule(this.bodies[i])
+    this.rule(this.bodies[i])
   };
   for(var i=0; i<this.bodies.length; i++){
     this.bodies[i].update()
@@ -33,6 +33,15 @@ World.prototype.display = function(){
     this.bodies[i].display()
   };
 }
+
+World.prototype.KEcalc = function(){
+  var tote = 0
+  for(var i=0; i<this.bodies.length; i++){
+    var speed = this.bodies[i].velocity.mag()
+    tote += this.bodies[i].mass * Math.pow(speed, 2)
+  };
+  return tote
+};
 
 var worldRun1 = function(){
   var worldView = canvasSetup('worldView')
@@ -85,5 +94,42 @@ var worldRunHarmonic = function(){
     world.checkEdges()
     world.update()
     world.display()
+  }, 1)
+};
+
+var worldRunInteractions = function(){
+  var worldView = canvasSetup('worldView')
+  $('.displays').append(worldView)
+  var bodies = []
+  var randI = function(i){return Math.random()*i}
+  for(var i = 0; i < 15; i++){
+    var bodyArgs = {
+      mass: 40,
+      location: new Vector([randI(400),randI(400),]),
+      velocity: new Vector([randI(1),randI(1),]),
+      group: true,
+      canvas: worldView
+    };
+    bodies.push(new Mover(bodyArgs))
+  };
+  world = new World({
+    bodies: bodies,
+    canvas: worldView,
+    rule: function(body){
+      for(var i=0; i<this.bodies.length; i++){
+        var other = this.bodies[i]
+        var sep = Vector.sub(body.location, other.location)
+        var dist = sep.mag()
+        if( dist > .1 && dist < 20){
+          body.applyForce(sep)
+        }
+      };
+    }
+  })
+  iterator(10000, function(){
+    world.checkEdges()
+    world.update()
+    world.display()
+    console.log(world.KEcalc())
   }, 1)
 }
