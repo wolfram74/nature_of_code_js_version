@@ -141,10 +141,10 @@ var worldDrivenDampedHarmonic = function(){
   $('.displays').append(worldView)
   var bodies = []
   var center = worldView.width()/2
-  for(var i = 0; i < 38; i++){
+  for(var i = 0; i < 99; i++){
     var bodyArgs = {
-      mass: 25,
-      location: new Vector([center,i*10+10]),
+      mass: 4,
+      location: new Vector([center,i*4+4]),
       group: true,
       canvas: worldView
     };
@@ -162,7 +162,7 @@ var worldDrivenDampedHarmonic = function(){
       var velocity = Vector.copy(body.velocity)
       var dampingForce = velocity.mult(-0.0025)
       var drivingForce = new Vector([0.01, 0])
-      var sineValue = Math.sin((this.time/100)*(body.location.values[1]/80))
+      var sineValue = Math.sin((this.time/100)*(body.location.values[1]/60))
       body.applyForce(springForce)
       body.applyForce(dampingForce)
       body.applyForce(drivingForce.mult(sineValue))
