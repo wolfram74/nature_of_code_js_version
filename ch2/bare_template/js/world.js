@@ -1,6 +1,7 @@
 var World = function(args){
   args = args || {}
   this.bodies = args.bodies || []
+  this.features = args.features || []
   this.canvas = args.canvas || $('canvas').first()
   this.noEdge = args.noEdge || false
   this.rule = args.rule || function(body){
@@ -20,6 +21,9 @@ World.prototype.checkEdges = function(){
 World.prototype.update = function(){
   for(var i=0; i<this.bodies.length; i++){
     this.rule(this.bodies[i])
+    // for(var i=0; i<this.features.length; i++){
+    //   this.features[i].effect(this.bodies[i])
+    // };
   };
   for(var i=0; i<this.bodies.length; i++){
     this.bodies[i].update()
@@ -160,7 +164,7 @@ var worldDrivenDampedHarmonic = function(){
         .01*(xOff-body.location.values[0]),
         0])
       var velocity = Vector.copy(body.velocity)
-      var dampingForce = velocity.mult(-0.0025)
+      var dampingForce = velocity.mult(-0.0005)
       var drivingForce = new Vector([0.01, 0])
       var sineValue = Math.sin((this.time/100)*(body.location.values[1]/60))
       body.applyForce(springForce)
@@ -174,6 +178,7 @@ var worldDrivenDampedHarmonic = function(){
     world.display()
   }, 1)
 };
+
 var worldRunInteractions = function(){
   var worldView = canvasSetup('worldView')
   $('.displays').append(worldView)
@@ -209,4 +214,47 @@ var worldRunInteractions = function(){
     world.display()
     console.log(world.KEcalc())
   }, 1)
+}
+
+var isochronous = function(){
+  var worldView = canvasSetup('worldView')
+  $('.displays').append(worldView)
+  var bodies = []
+  var rad
+  var theta
+  var x
+  var y
+  var dTheta = 6.28/16
+  for(var i = 0; i < 15; i++){
+    rad = 10+i*10
+    theta = dTheta + i*dTheta
+    x = rad*Math.cos(theta)
+    y = rad*Math.sin(theta)
+    var bodyArgs = {
+      mass: 25,
+      location: new Vector([x+200,y+200]),
+      group: true,
+      canvas: worldView
+    };
+    bodies.push(new Mover(bodyArgs))
+  };
+  world = new World({
+    bodies: bodies,
+    canvas: worldView,
+    rule: function(body){
+      var xOff = body.maxX/2
+      var yOff = body.maxY/2
+      body.applyForce(new Vector([
+        .01*(xOff-body.location.values[0]),
+        .01*(yOff-body.location.values[1])]
+        )
+      )
+    }
+  })
+  iterator(10000, function(){
+    world.checkEdges()
+    world.update()
+    world.display()
+  }, 1)
+
 }
