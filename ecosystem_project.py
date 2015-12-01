@@ -15,9 +15,9 @@ class Fish:
     canvas.create_oval(100,100,120,120)
     canvas.create_oval(115,100,135,120)
     canvas.create_oval(130,100,150,120)
-    self.head = PVector(100, 100)
+    self.head = PVector(130, 100)
     self.body = PVector(115, 100)
-    self.tail = PVector(130, 100)
+    self.tail = PVector(100, 100)
     self.velocity = PVector(0,0)
     self.acceleration = PVector(0,0)
     self.wave = Wave()
@@ -27,8 +27,11 @@ class Fish:
     self.accelerate()
     self.velocity.add(self.acceleration)
     self.head.add(self.velocity)
-    self.body.add(self.velocity)
+    # self.body.add(self.velocity)
+    self.body.x = self.head.x - 15
+    self.body.y = self.head.y + np.sin(self.wave.theta+np.pi) * self.wave.amplitude / 15
     self.tail.add(self.velocity)
+    self.tail.y += np.sin(self.wave.theta + np.pi) * self.wave.amplitude / 30
     self.find_borders()
     canvas.create_oval(self.head.x, self.head.y, self.head.x + 20, self.head.y + 20)
     canvas.create_oval(self.body.x, self.body.y, self.body.x + 20, self.body.y + 20)
@@ -36,22 +39,22 @@ class Fish:
     main.after(100, self.move)
 
   def find_borders(self):
-    if self.head.x >= 800 or self.head.x < 0:
+    if self.head.x >= 800:
       self.head.x = 0
-      self.body.x = 15
-      self.tail.x = 30
+      self.body.x = -15
+      self.tail.x = -30
     if self.head.y >= 200:
       self.head.y = 0
       self.body.y = 0
       self.tail.y = 0
-    if self.head.y <= 0:
+    if self.head.y < 0:
       self.head.y = 200
       self.body.y = 200
       self.tail.y = 200
 
   def accelerate(self):
     wave = self.wave
-    if np.sin(wave.theta) <= .1 and np.sin(wave.theta) >= 0:
+    if self.velocity.y <= .1 and self.velocity.y >= 0:
       wave.amplitude = random.randrange(30)
       wave.wave_length = random.randrange(200,400)
       print wave.amplitude
