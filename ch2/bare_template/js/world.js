@@ -21,9 +21,9 @@ World.prototype.checkEdges = function(){
 World.prototype.update = function(){
   for(var i=0; i<this.bodies.length; i++){
     this.rule(this.bodies[i])
-    // for(var i=0; i<this.features.length; i++){
-    //   this.features[i].effect(this.bodies[i])
-    // };
+    for(var j=0; j<this.features.length; j++){
+      this.features[j].effect(this.bodies[j])
+    };
   };
   for(var i=0; i<this.bodies.length; i++){
     this.bodies[i].update()
