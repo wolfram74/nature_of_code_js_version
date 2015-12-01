@@ -7,13 +7,14 @@ main = Tk()
 def gravity(obj):
   return PVector(0, gravity_acceleration)
 
+
 class Mover:
   def __init__(self):
     self.location = PVector(random.randint(0, 500), random.randint(0, 500))
     self.radius = random.randint(5,50)
-    self.velocity = PVector(0,0)
+    self.velocity = PVector(0.0,0.0)
     self.density = 1
-    self.acceleration = PVector(0,0)
+    self.acceleration = PVector(0.0,0.0)
     self.volume = 3.0/4.0 * (self.radius ** 3) * np.pi
 
   def update(self):
@@ -23,7 +24,7 @@ class Mover:
       self.location.y = 500 - self.radius
       self.velocity.y = self.velocity.y * -1
   def apply_gravity(self):
-    self.acceleration.subt(gravity(self)).div(200)
+    self.acceleration.subt(gravity(self)).div(200.00)
 
 
 canvas = Canvas(main, width= 500, height=500)
